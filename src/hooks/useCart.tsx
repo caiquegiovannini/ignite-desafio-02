@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import { getProduct, getProductStock, decreaseProductStock } from '../services/api';
+import { getProduct, getProductStock, updateProductStock } from '../services/api';
 import { Product, Stock } from '../types';
 
 interface CartProviderProps {
@@ -63,7 +63,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         ];
       }
 
-      decreaseProductStock(productId, stockProduct.amount - 1);
+      updateProductStock(productId, stockProduct.amount - 1);
 
       setCart([
         ...updatedCart,

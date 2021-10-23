@@ -8,7 +8,8 @@ export const getAllProducts = async () => (await api.get('/products')).data;
 export const getProduct = async (productId: number) => (await api.get(`/products/${productId}`)).data;
 
 export const getProductStock = async (productId: number) => (await api.get(`/stock/${productId}`)).data;
-export const decreaseProductStock = async (productId: number, productAmount: number) => await api.put(`/stock/${productId}`, {
+export const updateProductStock = async (productId: number, productAmount: number) => await api.put(`/stock/${productId}`, {
   id: productId,
   amount: productAmount,
 });
+

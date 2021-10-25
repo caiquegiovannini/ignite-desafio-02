@@ -90,8 +90,16 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       const stockProduct: Stock = await getProductStock(productId);
       const productHasStock = stockProduct.amount > 0;
-
-      if (!productHasStock) {
+      const productToUpdate = cart.find(product => product.id === productId);
+      const isIncrease = productToUpdate
+          ? amount > productToUpdate.amount
+          : false;
+      
+      if (amount <= 0) {
+        return;
+      }
+      
+      if (isIncrease && !productHasStock) {
         toast.error('Quantidade solicitada fora de estoque');
         return;
       }
@@ -107,7 +115,12 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return product;
       });
 
-      updateProductStock(productId, stockProduct.amount - 1);
+      if (isIncrease) {
+        updateProductStock(productId, stockProduct.amount - 1);
+      } else {
+        updateProductStock(productId, stockProduct.amount + 1);
+      }
+
       setCart([
         ...updatedCart,
       ]);

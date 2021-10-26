@@ -12,4 +12,3 @@ export const updateProductStock = async (productId: number, productAmount: numbe
   id: productId,
   amount: productAmount,
 });
-

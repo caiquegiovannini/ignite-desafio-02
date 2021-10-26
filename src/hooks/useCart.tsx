@@ -75,11 +75,20 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     }
   };
 
-  const removeProduct = (productId: number) => {
+  const removeProduct = async (productId: number) => {
     try {
-      // TODO
+      const stockProduct: Stock = await getProductStock(productId);
+      const productToRemove = cart.filter(product => product.id === productId)[0];
+      const totalAmountInCart = productToRemove.amount;
+      const cartWithoutProduct = cart.filter(product => product.id !== productId);
+
+      setCart([
+        ...cartWithoutProduct,
+      ]);
+      
+      updateProductStock(productId, stockProduct.amount + totalAmountInCart);
     } catch {
-      // TODO
+      toast.error('Erro na remoção do produto');
     }
   };
 
